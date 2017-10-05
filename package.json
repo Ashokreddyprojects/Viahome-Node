@@ -1,0 +1,34 @@
+{
+  "name": "viahome",
+  "version": "1.0.0",
+  "description": "echo \"# Node-Api-s\"",
+  "main": "server.js",
+  "dependencies": {
+    "ip": "^1.1.5",
+    "jsonwebtoken": "^8.0.0",
+    "morgan": "^1.8.2",
+    "nodemailer": "^4.1.2"
+  },
+  "devDependencies": {
+    "bcrypt": "^1.0.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.2",
+    "mongoose": "^4.11.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashokreddyprojects/Node-Api-s.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ashokreddyprojects/Node-Api-s/issues"
+  },
+  "homepage": "https://github.com/Ashokreddyprojects/Node-Api-s#readme"
+}
