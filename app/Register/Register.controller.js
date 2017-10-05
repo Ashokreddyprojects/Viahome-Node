@@ -305,6 +305,7 @@ Register.UserLogin = function (req, res) {
                             var outPut = {
                                 msg: "Admin login successfull",
                                 condition:true,
+                                Type:"Admin",
                                 result: result,
                                 // token:token,
                                 Match: isMatch
@@ -316,7 +317,6 @@ Register.UserLogin = function (req, res) {
                         } else {
                             var outPut = {
                                 msg: "Password does not match",
-                                Type:"Admin",
                                 condition:false,
                                 Match: isMatch
 
