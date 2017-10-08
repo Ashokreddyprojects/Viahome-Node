@@ -461,7 +461,7 @@ Register.findUsers = function (req, res) {
 Register.fgtpswd = function(req, res){
     console.log("Hello"+req.body.email)
 
-    profileSchema.findOne({
+    AdminSchema.findOne({
           email: req.body.email
     }, function (err, result) {
         var msg=""
@@ -501,13 +501,13 @@ Register.fgtpswd = function(req, res){
                     pass: 'ashok@1994' // Your password
                 }
             })
-
+			let urlids=result._id+'/'+response._id
             var mailOptions = {
                 from: 'ashokcse505@gmail.com',
                 to: result.email,
                 subject: 'hello world!',
                 text: 'hello world!',
-                html: 'http://localhost:3000/forgetPassword/'+result._id+"/"+response._id
+                html:'<a href="http://localhost:5050/rediRectPage/1223123/123456">Click Me</a>'
             };
         
             transporter.sendMail(mailOptions, (error, info) => {
