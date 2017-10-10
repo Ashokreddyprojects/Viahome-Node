@@ -2,6 +2,7 @@ var Register = require('./Register/Register.controller')
 var Project = require('./Projects/Project.controller')
 var Admin = require('./Admin/Admin.controller')
 module.exports = function (app) {
+	
     //user routing
     app.post('/userRegister', Register.register)
     app.post('/userUpdate', Register.update)
