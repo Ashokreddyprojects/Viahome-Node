@@ -577,90 +577,6 @@ Admin.deleteRCAData = function (req, res) {
     });
 }
 
-Admin.adminfgtpswd = function(req, res){
-    console.log("Hello"+req.body.email)
-
-    AdminSchema.findOne({
-          email: req.body.email
-    }, function (err, result) {
-        var msg=""
-        if(err){
-
-            console.log("Err", err)
-        }
-
-        else {
-
-            if(result==null)
-            {
-                msg: "invalid Admin"
-                var output = {
-                msg: "invalid Admin",
-                condtion: false,
-                data:null
-            }
-
-            res.json(output)
-
-            }
-               else{
-                   
-                   var status={
-                       UserId:result._id,
-                       Status:true                      
-                       }
-                   var ForGetPwdData=new ForGetPwd(status);
-                   ForGetPwdData.save()
-                      .then(function (response) {
-                       
-                 var transporter = nodemailer.createTransport({
-                service: 'Gmail',
-                auth: {
-                    user: 'ashokcse505@gmail.com', // Your email id
-                    pass: 'ashok@1994' // Your password
-                }
-            })
-
-            var mailOptions = {
-                from: 'ashokcse505@gmail.com',
-                to: result.email,
-                subject: 'hello world!',
-                text: 'hello world!',
-                html: 'http://localhost:3000/forgetPassword/'+result._id+"/"+response._id
-            };
-        
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.log(error);
-                    res.json("Err", error)
-                }
-            console.log(info)
-            msg: "Please check  your mail to reset password"
-                // console.log(`Message sent: ${info.response}`);
-                          var output = {
-                msg: "Please check  your mail to reset password",
-                condtion: true,
-                data:info
-            }
-
-            res.json(output)
-           
-            });
-                                                
-                        })
-                        .catch(function (err) {
-
-                       
-
-                        })
-
-            console.log("result", result._id)
-//            res.json(result)
-  
-        }
-        }
-})
-};
 
 Admin.adminchangepswd = function(req, res) {
 
@@ -739,8 +655,6 @@ Admin.adminchangepswd = function(req, res) {
                         if(err) {
 
                             console.log(err)
-                            msg= "Password not saved";
-                            condition = false;
                             var output = {
 
                             msg: "Password not saved",
@@ -753,8 +667,7 @@ Admin.adminchangepswd = function(req, res) {
                         else {
 
                             console.log(result)
-                            msg="Password updated successfully";
-                            condition = true;
+                           
                             var output = {
 
                             msg:"Password updated successfully",

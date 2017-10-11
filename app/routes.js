@@ -12,6 +12,8 @@ module.exports = function (app) {
     app.get('/findUsers', Register.findUsers)
     app.post('/fgtpswd', Register.fgtpswd)
     app.post('/changepswd', Register.changepswd)
+     app.post('/changePwdBasedId', Register.changePwdBasedId)
+    
 
     //project routing
     app.post('/createProject', Project.create)
@@ -22,7 +24,6 @@ module.exports = function (app) {
     //Admin routing
     app.post('/AdminRegister', Admin.register)
     app.post('/AdminUpdate', Admin.update)
-    app.post('/adminfgtpswd', Admin.adminfgtpswd)
     app.post('/adminchangepswd', Admin.adminchangepswd)
 
     //Median income
