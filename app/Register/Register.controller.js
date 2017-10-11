@@ -26,79 +26,79 @@ Register.register = function (req, res) {
         }]
     }, function (err, obj) {
 
-        if (!err) {
-            if (obj == null) {
-                req.body.active = true;
-                req.body.removeAccount = true;
-                // req.body.city = "";
-                // req.body.address = "";
-                // req.body.phone = "";
-                let profile = new profileSchema(req.body);
-                profile.save()
-                    .then(function (response) {
-                        // console.log("save")
+            if (!err) {
+                if (obj == null) {
+                    req.body.active = true;
+                    req.body.removeAccount = true;
+                    // req.body.city = "";
+                    // req.body.address = "";
+                    // req.body.phone = "";
+                    let profile = new profileSchema(req.body);
+                    profile.save()
+                        .then(function (response) {
+                            // console.log("save")
 
+                            var out = {
+                                msg: "You have registered successfully",
+                                condition:true,
+                                response: response
+
+                            }
+                            res.json(out);
+                        })
+                        .catch(function (err) {
+
+                            var out = {
+                                msg: "Your registration is failed",
+                                condition:false,
+                                response: err
+
+                            }
+                            res.json(out);
+
+                        })
+
+                } else {
+                    if (obj.email == req.body.email && obj.username == req.body.username) {
                         var out = {
-                            msg: "You have registered successfully",
-                            condition: true,
-                            response: response
+                            msg: 'username and email already existed',
+                            condition:false
+                            // response:obj
 
                         }
                         res.json(out);
-                    })
-                    .catch(function (err) {
 
+                    } else if (obj.email == req.body.email) {
                         var out = {
-                            msg: "Your registration is failed",
-                            condition: false,
-                            response: err
+                            msg: 'email already existed',
+                            condition:false,
+                            // response:obj
 
                         }
                         res.json(out);
 
-                    })
 
-            } else {
-                if (obj.email == req.body.email && obj.username == req.body.username) {
-                    var out = {
-                        msg: 'username and email already existed',
-                        condition: false
-                        // response:obj
+                    } else if (obj.username == req.body.username) {
+                        var out = {
+                            msg: 'username already existed',
+                            condition:false,
+                            // response:obj
 
-                    }
-                    res.json(out);
-
-                } else if (obj.email == req.body.email) {
-                    var out = {
-                        msg: 'email already existed',
-                        condition: false,
-                        // response:obj
+                        }
+                        res.json(out);
 
                     }
-                    res.json(out);
-
-
-                } else if (obj.username == req.body.username) {
-                    var out = {
-                        msg: 'username already existed',
-                        condition: false,
-                        // response:obj
-
-                    }
-                    res.json(out);
 
                 }
+
+
+            } else {
+                // console.log("error" + err);
 
             }
 
 
-        } else {
-            // console.log("error" + err);
-
-        }
-
-
-    });
+        });
 
 
 }
@@ -123,47 +123,49 @@ Register.update = function (req, res) {
         }, function (err, result) {
 
             if (!err) {
-                var ProfileUpadte = {};
+                var ProfileUpadte={};
 
-                var msg = "";
+                var msg="";
                 var condition = false;
                 if (result.nModified == 0) {
                     msg = 'Profile data not updated';
                     condition = false;
-                    ProfileUpadte = { Update: "Failed" }
+                    ProfileUpadte={Update:"Failed"}
+    
+                }
+                else {  
+                           profileSchema.findOne({_id:req.body.id}, function (err, result1) {
+                               if(!err)
+                                   {
+                                       ProfileUpadte=result1;
+                                       console.log("result1"+result1)
+                                            msg = 'Profile data updated successfully';
+                                            condition = true;
+                                           var out = {
+                    msg: msg,
+                    response: result,
+                    condition: condition,
+                    ProfileUpadte:ProfileUpadte
+                    // tokenStatus:a,
+                    // token:token
 
                 }
-                else {
-                    profileSchema.findOne({ _id: req.body.id }, function (err, result1) {
-                        if (!err) {
-                            ProfileUpadte = result1;
-                            console.log("result1" + result1)
-                            msg = 'Profile data updated successfully';
-                            condition = true;
-                            var out = {
-                                msg: msg,
-                                response: result,
-                                condition: condition,
-                                ProfileUpadte: ProfileUpadte
-                                // tokenStatus:a,
-                                // token:token
-
-                            }
-                            res.json(out);
-
-                        }
-                        else {
-
-                        }
-                    });
-
-
-
-
-
-
+                res.json(out);
+                                       
+                                   }
+                                    else
+                                   {
+                                       
+                                   }
+                           });
+                    
+                    
+                    
+                    
+                 
+    
                 }
-
+            
                 // res.send("updated")
 
             } else {
@@ -171,7 +173,7 @@ Register.update = function (req, res) {
                 var out = {
                     msg: 'update failed like did not matched id',
                     condition: false,
-                    ProfileUpadte: { Update: "Failed" }
+                    ProfileUpadte:{Update:"Failed"}
                     // response: result
 
                 }
@@ -302,8 +304,8 @@ Register.UserLogin = function (req, res) {
 
                             var outPut = {
                                 msg: "Admin login successfull",
-                                condition: true,
-                                Type: "Admin",
+                                condition:true,
+                                Type:"Admin",
                                 result: result,
                                 // token:token,
                                 Match: isMatch
@@ -315,7 +317,7 @@ Register.UserLogin = function (req, res) {
                         } else {
                             var outPut = {
                                 msg: "Password does not match",
-                                condition: false,
+                                condition:false,
                                 Match: isMatch
 
                             }
@@ -360,8 +362,8 @@ Register.UserLogin = function (req, res) {
 
                                         var outPut = {
                                             msg: "user Login successfull",
-                                            Type: "User",
-                                            condition: true,
+                                            Type:"User",
+                                            condition:true,
                                             result: result,
                                             //  token:token,
                                             Match: isMatch
@@ -374,7 +376,7 @@ Register.UserLogin = function (req, res) {
                                     } else {
                                         var outPut = {
                                             msg: "Password does not match",
-                                            condition: false,
+                                            condition:false,
                                             Match: isMatch
 
                                         }
@@ -392,7 +394,7 @@ Register.UserLogin = function (req, res) {
                             //res.send("No data pls register");
                             var outPut = {
                                 msg: "Invalid User login details",
-                                condition: false
+                                condition:false
                             }
                             // res.send(outPut);
                             res.json(outPut)
@@ -428,7 +430,7 @@ Register.UserLogin = function (req, res) {
 
 Register.findUsers = function (req, res) {
 
-    profileSchema.find({ removeAccount: true }, function (err, obj) {
+    profileSchema.find({removeAccount:true}, function (err, obj) {
 
         if (!err) {
 
@@ -475,7 +477,7 @@ Register.fgtpswd = function(req, res){
                 msg: "Invalid Admin"
                 var output = {
                 msg: "Invalid Admin",
-                condtion: false,
+                condition: false,
                 data:null
             }
                 
@@ -497,7 +499,7 @@ Register.fgtpswd = function(req, res){
                       msg: "Invalid User"
                     var output = {
                       msg: "Invalid User",
-                      condtion: false,
+                      condition: false,
                       data:null
                   }
                           
@@ -528,7 +530,7 @@ Register.fgtpswd = function(req, res){
                       to: result.email,
                       subject: 'hello world!',
                       text: 'hello world!',
-                      html:'<a href="http://localhost:8600/rediRectPage/1223123/123456">Click Me</a>'
+                      html:'<a href="http://192.168.0.52:5050/rediRectPage/'+urlids+'">Click Me</a>'
                   };
               
                   transporter.sendMail(mailOptions, (error, info) => {
@@ -541,7 +543,7 @@ Register.fgtpswd = function(req, res){
                       // console.log(`Message sent: ${info.response}`);
                                 var output = {
                       msg: "Please check  your mail to reset password",
-                      condtion: true,
+                      condition: true,
                       data:info
                   }
       
@@ -579,13 +581,13 @@ Register.fgtpswd = function(req, res){
                     pass: 'ashok@1994' // Your password
                 }
             })
-   let urlids=result._id+'/'+response._id
+			let urlids=result._id+'/'+response._id
             var mailOptions = {
                 from: 'ashokcse505@gmail.com',
                 to: result.email,
                 subject: 'hello world!',
                 text: 'hello world!',
-                html:'<a href="http://localhost:8600/rediRectPage/1223123/123456">Click Me</a>'
+                html:'<a href="http://192.168.0.52:5050/rediRectPage/'+urlids+'">Click Me</a>'
             };
         
             transporter.sendMail(mailOptions, (error, info) => {
@@ -598,7 +600,7 @@ Register.fgtpswd = function(req, res){
                 // console.log(`Message sent: ${info.response}`);
                           var output = {
                 msg: "Please check  your mail to reset password",
-                condtion: true,
+                condition: true,
                 data:info
             }
 
@@ -621,136 +623,137 @@ Register.fgtpswd = function(req, res){
 })
 };
 
-Register.changepswd = function (req, res) {
+
+Register.changepswd = function(req, res) {
 
     console.log("Hi")
     console.log(req.body)
-
+    
     profileSchema.findOne(
         {
 
-            '_id': req.body.id
+        '_id': req.body.id
         },
         {
             password: req.body.curpswd
-        },
-        function (err, result) {
+        }, 
+        function(err, result) {
 
-            var condition = false;
-            var msg = "";
-            if (err) {
+        var condition = false;
+        var msg="";
+    if(err) {
 
-                console.log(err)
-            }
-            else {
+        console.log(err)
+    }
+    else {
 
-                if (result == null) {
-                    msg = "Invalid password"
-                    condtion = false
+        if(result==null)
+        {
+            msg= "Invalid password"
+            condition= false
+          
+            var output = {
+            msg: "Invalid password",
+           
+            data:null
+        }
+        console.log(output)
+        res.json(output)
 
-                    var output = {
-                        msg: "Invalid password",
+        }
 
-                        data: null
+        else {
+
+            bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+                if (err) return next(err);
+                bcrypt.compare(req.body.curpswd, result.password, function (err, isMatch) {
+                    if (err) {
+                        // return console.error(err);
                     }
-                    console.log(output)
-                    res.json(output)
 
-                }
+                    if (isMatch) {
+                        msg= "Password matched";
+                        condition = true;
+                        var outPut = {
+                            msg: "Password matched",
+                            Type:"User",
+                            condition:true,
+                            result: result,
+                            //  token:token,
+                            Match: isMatch
 
-                else {
+                        }
+                        var updateData = {
 
-                    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-                        if (err) return next(err);
-                        bcrypt.compare(req.body.curpswd, result.password, function (err, isMatch) {
-                            if (err) {
-                                // return console.error(err);
+                            password: req.body.password
+                        }
+                        //res.send(outPut);
+                        // res.json(outPut)
+
+                    profileSchema.update({
+
+                        '_id': req.body.id}, 
+
+                        {$set: updateData
+
+                        }, function(err, result) {
+
+                        if(err) {
+
+                            console.log(err)
+                            msg= "Password not saved";
+                            condition = false;
+                            var output = {
+
+                            msg: "Password not saved",
+                            err:err,
+                            condition: false
                             }
+                            res.json(output)
+                        }
 
-                            if (isMatch) {
-                                msg = "Password matched";
-                                condition = true;
-                                var outPut = {
-                                    msg: "Password matched",
-                                    Type: "User",
-                                    condition: true,
-                                    result: result,
-                                    //  token:token,
-                                    Match: isMatch
+                        else {
 
-                                }
-                                var updateData = {
+                            console.log(result)
+                            msg="Password updated successfully";
+                            condition = true;
+                            var output = {
 
-                                    password: req.body.password
-                                }
-                                //res.send(outPut);
-                                // res.json(outPut)
-
-                                profileSchema.update({
-
-                                    '_id': req.body.id
-                                },
-
-                                    {
-                                        $set: updateData
-
-                                    }, function (err, result) {
-
-                                        if (err) {
-
-                                            console.log(err)
-                                            msg = "Password not saved";
-                                            condition = false;
-                                            var output = {
-
-                                                msg: "Password not saved",
-                                                err: err,
-                                                condtion: false
-                                            }
-                                            res.json(output)
-                                        }
-
-                                        else {
-
-                                            console.log(result)
-                                            msg = "Password updated successfully";
-                                            condition = true;
-                                            var output = {
-
-                                                msg: "Password updated successfully",
-                                                result: result,
-                                                condtion: true
-                                            }
-                                            res.json(output)
-                                        }
-                                    }
-
-                                )
-                            } else {
-                                msg = "Password does not match";
-                                condition = false;
-
-                                var outPut = {
-                                    msg: "Password does not match",
-                                    condition: false,
-                                    Match: isMatch
-
-                                }
-                                //res.send(outPut);
-                                res.json(outPut)
+                            msg:"Password updated successfully",
+                            result:result,
+                            condition: true
                             }
+                            res.json(output)
+                        }
+                    }
 
-                        });
+                )
+                    } else {
+                        msg= "Password does not match";
+                        condition=false;
+
+                        var outPut = {
+                            msg: "Password does not match",
+                            condition:false,
+                            Match: isMatch
+
+                        }
+                        //res.send(outPut);
+                        res.json(outPut)
+                    }
+
+                });
 
 
-                    });
+            });
+    
+            } 
 
-                }
-
-            }
-        })
+        }
+    })
 
 }
+
 
 Register.changePwdBasedId = function (req, res) {
     console.log("HI" + req.body.id)
@@ -761,6 +764,9 @@ Register.changePwdBasedId = function (req, res) {
 
 
     AdminSchema.findOne({ _id: req.body.id }, function (err, obj) {
+
+        var msg="";
+        var condition = false
 
         if (!err) {
              if(obj==null)
@@ -781,28 +787,49 @@ Register.changePwdBasedId = function (req, res) {
                     $set: pwdChanges
 
                 }, function (err, result) {
-
+                    
+                    var msg="";
+                    var condition = false
                     if (err) {
 
                         console.log(err)
+
+                        msg= "User Password not saved";
+                        condition= false;
                         var output = {
 
                             msg: "User Password not saved",
                             err: err,
-                            condtion: false
+                            condition: false
                         }
                         res.json(output)
                     }
 
                     else {
 
-                        console.log(result)
+                       // console.log(result)
+                       
+                       ForGetPwd.update({
+                        
+                                        '_id': req.body.UserId
+                                    },
+                        
+                                        {
+                                            $set: {Status:false}
+                        
+                                        }, function (err, status) {
+                                            if(!err){console.log("status updated")}
+                                            else{console.log("status updated error")}
+                                            
+                                        })
 
+                        msg= "User Password updated successfully";
+                        condition= true;
                         var output = {
 
                             msg: "User Password updated successfully",
                             result: result,
-                            condtion: true
+                            condition: true
                         }
                         res.json(output)
                     }
@@ -812,12 +839,14 @@ Register.changePwdBasedId = function (req, res) {
                     }
                     else
                      {
+                        msg= "Password not saved";
+                        condition= false;
 
                             var output = {
 
                             msg: "Password not saved",
                             err:err,
-                            condtion: false
+                            condition: false
                             }
                             res.json(output)
 
@@ -842,24 +871,44 @@ Register.changePwdBasedId = function (req, res) {
                     if (err) {
 
                         console.log(err)
+
+                        msg= "Admin Password not saved";
+                        condition= false;
                         var output = {
 
-                            msg: "Adnin Password not saved",
+                            msg: "Admin Password not saved",
                             err: err,
-                            condtion: false
+                            condition: false
                         }
                         res.json(output)
                     }
 
                     else {
 
-                        console.log(result)
+                        //console.log(result)
+
+                        ForGetPwd.update({
+                            
+                                            '_id': req.body.UserId
+                                        },
+                            
+                                            {
+                                                $set: {Status:false}
+                            
+                                            }, function (err, status) {
+                                                if(!err){console.log("status updated")}
+                                                else{console.log("status updated error")}
+                                                
+                                            })
+
+                        msg= "Admin Password updated successfully";
+                        condition= true
 
                         var output = {
 
                             msg: "Admin Password updated successfully",
                             result: result,
-                            condtion: true
+                            condition: true
                         }
                         res.json(output)
                     }
@@ -882,6 +931,7 @@ Register.changePwdBasedId = function (req, res) {
     })
 
 }
+
 
 
 
