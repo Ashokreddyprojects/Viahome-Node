@@ -8,7 +8,9 @@ Project.create = function (req, res) {
         .then(function (response) {
             // console.log("save")
             var out = {
-                msg: "Success",
+                msg: "Project successfully added",
+                icon:"fa fa-check fa-2x success-icon",
+               
                 response: response
             }
             res.json(out);
@@ -16,7 +18,8 @@ Project.create = function (req, res) {
         .catch(function (err) {
             // console.log(err);
             var out = {
-                msg: "Error",
+                msg: "Error in addding Project",
+                 icon:"fa fa-exclamation-triangle fa-2x",
                 response: err
             }
             res.json(out);
@@ -55,18 +58,19 @@ Project.update = function (req, res) {
             if (!err) {
 
                 var msg="";
+                var condition = false;
                 if (result.nModified == 0) {
                     msg='Project data not modified';
-
+                    condition = false;
                 }
                 else {
                     msg='Project updated successfully';
-
+                    condition = true;
                 }
                 var out = {
                     msg:msg,
                     response: result,
-
+                    condition:condition
                     // tokenStatus:a,
                     // token:token
                 }
@@ -75,8 +79,11 @@ Project.update = function (req, res) {
 
             }
             else {
+                msg = 'Project updation failed - id did not match';
+                condition = false;
                 var out = {
-                    msg: 'Project updation failed - id did not match'
+                    msg: 'Project updation failed - id did not match',
+                    condition:condition
                 }
                 res.json(out);
 
@@ -87,7 +94,6 @@ Project.update = function (req, res) {
         });
 
 }
-
 
 
 Project.delete = function (req, res) {

@@ -517,7 +517,7 @@ Register.fgtpswd = function (req, res) {
                                         service: 'Gmail',
                                         auth: {
                                             user: 'forgot@getviahome.com', // Your email id
-                                            pass: 'viahome123!' // Your password
+                                            pass: 'viahome321!' // Your password
                                         }
                                     })
                                     let urlids = result._id + '/' + response._id
@@ -575,7 +575,7 @@ Register.fgtpswd = function (req, res) {
                             service: 'Gmail',
                             auth: {
                                 user: 'forgot@getviahome.com', // Your email id
-                                pass: 'viahome123!' // Your password
+                                pass: 'viahome321!' // Your password
                             }
                         })
                         let urlids = result._id + '/' + response._id;
