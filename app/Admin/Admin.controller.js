@@ -177,8 +177,16 @@ Admin.update = function (req, res) {
 
 
 Admin.medianIncome = function (req, res) {
+    var num = req.params.num;
+    console.log(num)
+	
+	// var perPage = 100
+    // var page = req.params.num ;
+    // var skipNumber=(perPage * page) - (perPage+1);
+    //  console.log(skipNumber)
+    //  ,{skip:200},{limit : 100}
 
-    medianIncomeSchema.find({}, function (err, result) {
+medianIncomeSchema.find({} , function (err, result) {
 
         if (err) {
 
@@ -187,14 +195,30 @@ Admin.medianIncome = function (req, res) {
 
         }
         else {
-
-            // console.log(result);
-            var output = {
+            
+            
+                     console.log(result);    
+			medianIncomeSchema.count(function(error, nbDocs) {
+				if(err)
+				{
+					res.json(err)
+					
+				}
+				else{
+					   var output = {
                 msg: "Found data successfully",
                 condition: true,
-                App: result
+                App: result,
+				count:nbDocs
             }
             res.json(output)
+					
+				}
+				
+			});
+
+             // console.log(result);
+         
         }
 
     });

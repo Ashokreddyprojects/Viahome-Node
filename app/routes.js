@@ -27,7 +27,7 @@ module.exports = function (app) {
     app.post('/adminchangepswd', Admin.adminchangepswd)
 
     //Median income
-    app.get('/medianIncome', Admin.medianIncome)
+    app.get('/medianIncome/:num', Admin.medianIncome)
     app.post('/addMedianIncome', Admin.addMedianIncomeData)
     app.post('/updateMedianIncome', Admin.updateMedianIncome)
     app.post('/deleteMedianIncome', Admin.deleteMedianIncome)
