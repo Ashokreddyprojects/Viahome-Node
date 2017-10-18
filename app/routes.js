@@ -33,7 +33,7 @@ module.exports = function (app) {
     app.post('/deleteMedianIncome', Admin.deleteMedianIncome)
 
     // FMR Rents
-    app.get('/fmrRents', Admin.fmrRents)
+    app.get('/fmrRents/:num', Admin.fmrRents)
     app.post('/addfmrRents', Admin.addfmrRents)
     app.post('/updatefmrRents', Admin.updatefmrRents)
     app.post('/deletefmrRents', Admin.deletefmrRents)

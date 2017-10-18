@@ -178,15 +178,15 @@ Admin.update = function (req, res) {
 
 Admin.medianIncome = function (req, res) {
     var num = req.params.num;
-    console.log(num)
+   // console.log(num)
 	
-	// var perPage = 100
-    // var page = req.params.num ;
-    // var skipNumber=(perPage * page) - (perPage+1);
+	 var perPage = 100
+     var page = req.params.num ;
+     var skipNumber=(perPage * page) - (perPage);
     //  console.log(skipNumber)
     //  ,{skip:200},{limit : 100}
 
-medianIncomeSchema.find({} , function (err, result) {
+medianIncomeSchema.find({}).skip(skipNumber).limit(perPage).exec(function (err, result) {
 
         if (err) {
 
@@ -197,7 +197,7 @@ medianIncomeSchema.find({} , function (err, result) {
         else {
             
             
-                     console.log(result);    
+                    //  console.log(result);    
 			medianIncomeSchema.count(function(error, nbDocs) {
 				if(err)
 				{
@@ -344,7 +344,13 @@ Admin.addMedianIncomeData = function (req, res) {
 }
 
 Admin.fmrRents = function (req, res) {
-    fmrRentsSchema.find({}, function (err, result) {
+     var num = req.params.num;
+    //console.log(num)
+	
+	 var perPage = 100
+     var page = req.params.num ;
+     var skipNumber=(perPage * page) - (perPage);
+    fmrRentsSchema.find({}).skip(skipNumber).limit(perPage).exec(function (err, result) {
 
         if (err) {
 
@@ -354,8 +360,27 @@ Admin.fmrRents = function (req, res) {
         }
         else {
 
+            		fmrRentsSchema.count(function(error, nbDocs) {
+				if(err)
+				{
+					res.json(err)
+					
+				}
+				else{
+
+                	   var output = {
+                msg: "Found data successfully",
+                condition: true,
+                App: result,
+				count:nbDocs
+                    }
+            res.json(output)
+				
+            }
+                    });
+
             // console.log(result);
-            res.json(result)
+           
         }
 
     });
