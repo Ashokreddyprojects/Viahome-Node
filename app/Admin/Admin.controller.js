@@ -111,7 +111,7 @@ Admin.update = function (req, res) {
                 if (!err) {
                     var ProfileUpadte={};
     
-                    var msg="";
+                    var msg="Admin Profile update failed";
                     var condition = false;
                     if (result.nModified == 0) {
                         msg = 'Profile data not updated';
@@ -124,7 +124,7 @@ Admin.update = function (req, res) {
                                    if(!err)
                                        {
                                            ProfileUpadte=result1;
-                                           console.log("result1"+result1)
+                                        //   console.log("result1"+result1)
                                                 msg = 'Profile data updated successfully';
                                                 condition = true;
                                                var out = {
@@ -157,7 +157,7 @@ Admin.update = function (req, res) {
                 } else {
     
                     var out = {
-                        msg: 'update failed like did not matched id',
+                        msg: 'Admin Profile update failed ',
                         condition: false,
                         ProfileUpadte:{Update:"Failed"}
                         // response: result
@@ -180,7 +180,7 @@ Admin.medianIncome = function (req, res) {
     var num = req.params.num;
    // console.log(num)
 	
-	 var perPage = 100
+	 var perPage = 10
      var page = req.params.num ;
      var skipNumber=(perPage * page) - (perPage);
     //  console.log(skipNumber)
@@ -295,9 +295,11 @@ Admin.deleteMedianIncome = function (req, res) {
 
     medianIncomeSchema.deleteOne({ _id: req.body.id }, function (err, result) {
 
+        console.log("Name", req.body.Area_Name)
+
         if (!err) {
             var out = {
-                msg: 'Data Removed Successfully',
+                msg: req.body.Area_Name + 'data deleted successfully',
                 condition: true,
                 response: result
 
@@ -347,7 +349,7 @@ Admin.fmrRents = function (req, res) {
      var num = req.params.num;
     //console.log(num)
 	
-	 var perPage = 100
+	 var perPage = 10
      var page = req.params.num ;
      var skipNumber=(perPage * page) - (perPage);
     fmrRentsSchema.find({}).skip(skipNumber).limit(perPage).exec(function (err, result) {
@@ -482,7 +484,7 @@ Admin.deletefmrRents = function (req, res) {
 
         if (!err) {
             var out = {
-                msg: 'Data Removed Successfully',
+                msg: req.body.Area_Name + 'data removed successfully',
                 response: result,
                 // tokenStatus:a,
                 // token:token
